@@ -23,5 +23,13 @@
                 options={csvHeaderOptions}
             ></lightning-combobox>
         </template>
+        <template if:true={fieldAPINameHeaderOptions}>
+            <lightning-combobox
+                label="Lead Field Names"
+                value={chosenFieldAPINameHeaderOption}
+                placeholder="Field Name"
+                options={fieldAPINameHeaderOptions}
+            ></lightning-combobox>
+        </template>
     </lightning-card>
 </template>

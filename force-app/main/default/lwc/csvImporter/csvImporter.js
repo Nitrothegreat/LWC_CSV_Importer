@@ -1,10 +1,13 @@
 import { LightningElement } from 'lwc';
 import getCSV from '@salesforce/apex/CSVImporterController.getCSV';
+import getListAPINameForObject from '@salesforce/apex/CSVImporterController.getListAPINameForObject';
 
 export default class CsvImporter extends LightningElement {
     contentVersionId;
     csvHeaderOptions;
+    fieldAPINameHeaderOptions;
     chosenCSVHeaderOption;
+    chosenFieldAPINameHeaderOption;
 
     get acceptedFormats() {
         return ['.csv'];
@@ -18,6 +21,7 @@ export default class CsvImporter extends LightningElement {
         getCSV({ contentVersionId: this.contentVersionId})
         .then(result =>{
             this.handleGetCSVResult(result);
+            this.generateSObjectOptions();
         })
         .catch(error => {
             console.log(error);
@@ -43,6 +47,26 @@ export default class CsvImporter extends LightningElement {
                 value: col
             });
         });
+    }
+
+    generateSObjectOptions(){
+        this.fieldAPINameHeaderOptions = [];
+
+        getListAPINameForObject({ objectAPIName: 'Lead' })
+        .then(result => {
+            console.log(result);
+            result.forEach(fieldAPIName => {
+                this.fieldAPINameHeaderOptions.push({
+                    label: fieldAPIName,
+                    value: fieldAPIName
+                });
+            })
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+        console.log(this.fieldAPINameHeaderOptions);
     }
 }
 
