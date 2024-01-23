@@ -15,5 +15,13 @@
                 onuploadfinished={handleUploadFinished}
             ></lightning-file-upload>
         </span>
+        <template if:true={csvHeaderOptions}>
+            <lightning-combobox
+                label="CSV Headers"
+                value={chosenCSVHeaderOption}
+                placeholder="Header"
+                options={csvHeaderOptions}
+            ></lightning-combobox>
+        </template>
     </lightning-card>
 </template>

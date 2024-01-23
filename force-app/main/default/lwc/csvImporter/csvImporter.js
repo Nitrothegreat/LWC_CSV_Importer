@@ -3,6 +3,8 @@ import getCSV from '@salesforce/apex/CSVImporterController.getCSV';
 
 export default class CsvImporter extends LightningElement {
     contentVersionId;
+    csvHeaderOptions;
+    chosenCSVHeaderOption;
 
     get acceptedFormats() {
         return ['.csv'];
@@ -15,7 +17,7 @@ export default class CsvImporter extends LightningElement {
     handleMapButtonClick(event){
         getCSV({ contentVersionId: this.contentVersionId})
         .then(result =>{
-            let rowArr = result.split('\r\n');
+            this.handleGetCSVResult(result);
         })
         .catch(error => {
             console.log(error);
@@ -28,6 +30,19 @@ export default class CsvImporter extends LightningElement {
         if(uploadedFiles && uploadedFiles[0].contentVersionId != null){
             this.contentVersionId = uploadedFiles[0].contentVersionId;
         }
+    }
+
+    handleGetCSVResult(result){
+        let rowArr = result.split('\r\n');
+        let headerRowArr = rowArr[0].split(',');
+        this.csvHeaderOptions = [];
+
+        headerRowArr.forEach(col => {
+            this.csvHeaderOptions.push({
+                label: col,
+                value: col
+            });
+        });
     }
 }
 
