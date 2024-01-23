@@ -1,13 +1,18 @@
 <template>
     <lightning-card title="CSV Importer">
+        <lightning-button 
+            label="Map Fields" 
+            slot="actions" 
+            variant="brand"
+            disabled={disableMapFieldsButton}
+        ></lightning-button>
         <span class="slds-align_absolute-center">
             <lightning-file-upload
                 label="Upload CSV"
                 name="csvUploader"
                 accept={acceptedFormats}
                 onuploadfinished={handleUploadFinished}
-            >
-            </lightning-file-upload>
+            ></lightning-file-upload>
         </span>
     </lightning-card>
 </template>
